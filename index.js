@@ -1,0 +1,1 @@
+module.exports = require('./mikes-www-wrapper');
