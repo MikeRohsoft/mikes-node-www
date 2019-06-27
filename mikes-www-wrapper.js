@@ -208,18 +208,14 @@ function post(url, params, callback) {
 };
 
 module.exports = {
-    provide: {
-        lwp: {
-            get: get,
-            post: post,
-            request: request,
-            extractRequestOptions: extractRequestOptions,
-            addCookie: addCookie,
-            getCookie: getCookie,
-            clearCookies: clearCookies,
-            removeCookie: removeCookie,
-            https: https,
-            querystring: querystring,
-        },
-    },
+	get: get,
+	post: post,
+	request: request,
+	extractRequestOptions: extractRequestOptions,
+	addCookie: addCookie,
+	getCookie: getCookie,
+	clearCookies: clearCookies,
+	removeCookie: removeCookie,
+	https: https,
+	querystring: querystring,
 };
