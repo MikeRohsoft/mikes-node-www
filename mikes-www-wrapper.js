@@ -1,6 +1,6 @@
 const https = require('https');
 const querystring = require('querystring');
-const Cookies = require('./cookies');
+const Cookies = require('./cookie');
 let globalCookies = [];
 
 /**
