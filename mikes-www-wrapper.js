@@ -109,12 +109,20 @@ function extractRequestOptions(method, url, content) {
 	let params = uriToMap(uri);
 	const parts = url.split('/');
 	url = parts.splice(0, 1)[0];
+	let port = null;
+	buffer = url.split(':');
+	if (!!buffer[1]) {
+		port = buffer[1];
+	}
 	uri = parts.join('/');
 	const prams = querystring.stringify(params);
 	if (!!prams) {
 		uri += '?' + prams;	
 	}
 	let reqObject = { host: url, path: '/' + uri, headers: {} };
+	if (!!port) {
+		reqObject.port = port;
+	}
 	const cookie = getCookie(url);
 	if (!!cookie) {
 		reqObject.headers['Cookie'] = cookie;
