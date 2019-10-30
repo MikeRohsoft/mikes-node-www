@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 const querystring = require('querystring');
 const Cookies = require('./cookie');
 let globalCookies = [];
@@ -99,7 +100,11 @@ function extractRequestOptions(method, url, content) {
 	let uri;
 	[url, uri] = url.split('?');
 	let buffer;
+	let protocol = 'https:';
 	[buffer, url] = url.split('://');
+	if (buffer === 'http') {
+		protocol = 'http:';
+	}
 	if (!url) {
 		url = buffer;
     }
@@ -112,14 +117,16 @@ function extractRequestOptions(method, url, content) {
 	let port = null;
 	buffer = url.split(':');
 	if (!!buffer[1]) {
+		url = buffer[0];
 		port = buffer[1];
+		console.log(url, port);
 	}
 	uri = parts.join('/');
 	const prams = querystring.stringify(params);
 	if (!!prams) {
 		uri += '?' + prams;	
 	}
-	let reqObject = { host: url, path: '/' + uri, headers: {} };
+	let reqObject = { host: url, path: '/' + uri, headers: {}, protocol: protocol };
 	if (!!port) {
 		reqObject.port = port;
 	}
@@ -177,7 +184,8 @@ function request(requestObject, content, callback) {
 			response.on('data', receiveData);
 			response.on('end', onDataReceived);
 		};
-		const result = https.request(requestObject, responseHandler);
+		const curl = requestObject.protocol === 'https:' ? https : http;
+		const result = curl.request(requestObject, responseHandler);
 		if (!!content) {
 			result.write(content);
 		}
